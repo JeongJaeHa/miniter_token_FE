@@ -23,20 +23,83 @@ import MDBox from "components/MDBox";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
-import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
+// import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
+// import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // Data
-import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
-import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
+// import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
+// import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 
 // Dashboard components
 import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
 function Dashboard() {
-  const { sales } = reportsLineChartData;
+  // const { sales, tasks } = reportsLineChartData;
+  const [fullToken, setFullToken] = useState([]);
+  const [remainToken, setRemainToken] = useState([]);
+  const [issuedToken, setIssuedToken] = useState([]);
+  const [member, setMember] = useState([]);
+
+  useEffect(() => {
+    const getFullToken = async () => {
+      const result = await axios.get(`http://127.0.0.1:8080/admin/full`, {
+        headers: {
+          "Content-Type": "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      });
+      const user = result.data[0].fullToken;
+      setFullToken(user);
+    };
+    getFullToken();
+  }, []);
+
+  useEffect(() => {
+    const getRemainToken = async () => {
+      const result = await axios.get(`http://127.0.0.1:8080/admin/remain`, {
+        headers: {
+          "Content-Type": "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      });
+      const user = result.data[0].remainToken;
+      setRemainToken(user);
+    };
+    getRemainToken();
+  }, []);
+
+  useEffect(() => {
+    const getIssuedToken = async () => {
+      const result = await axios.get(`http://127.0.0.1:8080/admin/issued`, {
+        headers: {
+          "Content-Type": "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      });
+      const user = result.data[0].allToken;
+      setIssuedToken(user);
+    };
+    getIssuedToken();
+  }, []);
+
+  useEffect(() => {
+    const getMember = async () => {
+      const result = await axios.get(`http://127.0.0.1:8080/admin/members`, {
+        headers: {
+          "Content-Type": "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      });
+      const user = result.data[0].member;
+      setMember(user);
+    };
+    getMember();
+  }, []);
 
   return (
     <DashboardLayout>
@@ -48,8 +111,8 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="dark"
                 icon="weekend"
-                title="Bookings"
-                count={281}
+                title="전체 토큰 갯수"
+                count={fullToken}
                 percentage={{
                   color: "success",
                   amount: "+55%",
@@ -62,8 +125,8 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 icon="leaderboard"
-                title="Today's Users"
-                count="2,300"
+                title="남은 토큰 갯수"
+                count={remainToken}
                 percentage={{
                   color: "success",
                   amount: "+3%",
@@ -77,8 +140,8 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="success"
                 icon="store"
-                title="Revenue"
-                count="34k"
+                title="발행 토큰 갯수"
+                count={issuedToken}
                 percentage={{
                   color: "success",
                   amount: "+1%",
@@ -92,8 +155,8 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="primary"
                 icon="person_add"
-                title="Followers"
-                count="+91"
+                title="유저 수"
+                count={member}
                 percentage={{
                   color: "success",
                   amount: "",
@@ -103,13 +166,13 @@ function Dashboard() {
             </MDBox>
           </Grid>
         </Grid>
-        <MDBox mt={4.5}>
+        {/* <MDBox mt={4.5}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
                 <ReportsBarChart
                   color="info"
-                  title="website views"
+                  title="미구현 사항"
                   description="Last Campaign Performance"
                   date="campaign sent 2 days ago"
                   chart={reportsBarChartData}
@@ -120,7 +183,7 @@ function Dashboard() {
               <MDBox mb={3}>
                 <ReportsLineChart
                   color="success"
-                  title="daily sales"
+                  title="미구현 사항"
                   description={
                     <>
                       (<strong>+15%</strong>) increase in today sales.
@@ -131,19 +194,19 @@ function Dashboard() {
                 />
               </MDBox>
             </Grid>
-            {/* <Grid item xs={12} md={6} lg={4}>
+            <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
                 <ReportsLineChart
                   color="dark"
-                  title="completed tasks"
+                  title="미구현 사항"
                   description="Last Campaign Performance"
                   date="just updated"
                   chart={tasks}
                 />
               </MDBox>
-            </Grid> */}
+            </Grid>
           </Grid>
-        </MDBox>
+        </MDBox> */}
         <MDBox>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={8}>

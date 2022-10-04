@@ -53,11 +53,12 @@ function signIn() {
           alert("이메일 또는 비밀번호를 확인 해 주세요.");
         } else if (result.message === "WELCOME") {
           alert("환영합니다.");
-          Navigate(`/middle`);
+          localStorage.setItem("message", result.message);
+          Navigate(`/personal`);
         } else if (result.message === "HELLO") {
           alert("반갑습니다.");
           localStorage.setItem("message", result.message);
-          Navigate(`/middle`);
+          Navigate(`/dashboard`);
         }
       });
   }

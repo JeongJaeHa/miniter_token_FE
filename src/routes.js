@@ -37,6 +37,7 @@ Coded by www.creative-tim.com
 
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
+import UserDashboard from "layouts/userDashboard";
 import Tables from "layouts/tables";
 import Login from "layouts/login";
 import Signup from "layouts/signup";
@@ -53,12 +54,20 @@ import Icon from "@mui/material/Icon";
 
 const routes = [
   {
-    type: "collapse",
+    type: "admin",
     name: "Dashboard",
     key: "dashboard",
     icon: <Icon fontSize="small">dashboard</Icon>,
     route: "/dashboard",
     component: <Dashboard />,
+  },
+  {
+    type: "user",
+    name: "userDashboard",
+    key: "userDashboard",
+    icon: <Icon fontSize="small">dashboard</Icon>,
+    route: "/personal",
+    component: <UserDashboard />,
   },
   {
     type: "admin",

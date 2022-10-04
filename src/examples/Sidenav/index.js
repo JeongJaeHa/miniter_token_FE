@@ -125,7 +125,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           />
         </NavLink>
       );
-    } else if (type === "collapse") {
+    } else if (type === "user") {
       returnValue = href ? (
         <MDButton
           key={key}
@@ -143,7 +143,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           <SidenavCollapse
             name={name}
             icon={icon}
-            message="HELLO"
+            message="WELCOME"
             active={key === collapseName}
             component="a"
             target="_blank"

@@ -29,7 +29,7 @@ import MDTypography from "components/MDTypography";
 import DataTable from "examples/Tables/DataTable";
 
 // Data
-import data from "layouts/dashboard/components/Projects/data";
+import data from "layouts/userDashboard/components/Projects/data";
 
 function Projects() {
   const { columns, rows } = data();
@@ -77,7 +77,7 @@ function Projects() {
               done
             </Icon>
             <MDTypography variant="button" fontWeight="regular" color="text">
-              &nbsp;<strong>유저 토큰 보유 현황</strong>
+              &nbsp;<strong>상품 구매 히스토리</strong>
             </MDTypography>
           </MDBox>
         </MDBox>

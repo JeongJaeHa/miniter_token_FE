@@ -40,7 +40,6 @@ function OrdersOverview() {
         },
       });
       const a = result.data.newIssued;
-      console.log(a);
       setUserData(a);
     };
     getUserData();
@@ -68,11 +67,7 @@ function OrdersOverview() {
       <MDBox>
         {userData.map((item) => (
           <TimelineItem
-            title={item.email}
-            description={item.add_token}
-            token={item.updated_at}
-            lastItem
-          />
+            title={item.email} description={item.add_token} token={item.updated_at} lastItem />
         ))}
         {/* <TimelineItem
           color="error"

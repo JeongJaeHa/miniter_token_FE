@@ -40,12 +40,12 @@ function TimelineItem({ color, icon, title, dateTime, description, lastItem }) {
         alignItems="center"
         bgColor={color}
         color="white"
-        width="2rem"
-        height="2rem"
+        width=".5rem"
+        height=".5rem"
         borderRadius="50%"
         position="absolute"
-        top="8%"
-        left="2px"
+        top="19%"
+        left="29px"
         zIndex={2}
         sx={{ fontSize: ({ typography: { size } }) => size.sm }}
       >

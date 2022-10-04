@@ -44,7 +44,6 @@ function Tables() {
         "cache-control": "no-cache",
         accessToken: localStorage.getItem("accessToken"),
       },
-      body: JSON.stringify({ array }),
     });
   };
 

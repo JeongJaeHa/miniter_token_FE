@@ -19,7 +19,6 @@ Coded by www.creative-tim.com
 // import Tooltip from "@mui/material/Tooltip";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import MDButton from "components/MDButton";
 // import MDAvatar from "components/MDAvatar";
 // import MDProgress from "components/MDProgress";
 
@@ -73,40 +72,21 @@ export default function data() {
     </MDBox>
   );
 
-  const [userData, setUserData] = useState([]);
+  const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    const getUserToken = async () => {
-      const result = await axios.get(`http://127.0.0.1:8080/admin/personal`, {
+    const getUserHistory = async () => {
+      const result = await axios.get(`http://127.0.0.1:8080/users/history`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
         },
       });
-      const a = result.data.personal;
-      setUserData(a);
+      const a = result.data;
+      setHistory(a);
     };
-    // console.log("userData: ", userData);
-    getUserToken();
+    getUserHistory();
   }, []);
-
-  const tokenCollect = async (e) => {
-    const result = await axios({
-      method: "patch",
-      url: `http://127.0.0.1:8080/req/collect`,
-      data: {
-        userId: e,
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (result.data.message === "TOKEN COLLECT") {
-      alert("토큰이 회수되었습니다.");
-      window.location.reload();
-    }
-    return result;
-  };
 
   // const getTokenData = userData.map((item) => <Company name={item.all_token} />);
   // console.log("getTokenData: ", getTokenData);
@@ -115,19 +95,18 @@ export default function data() {
   // console.log("getEmailData: ", getEmailData);
 
   const rowsData = [];
-  userData.forEach((item) =>
+  history.forEach((user) =>
     rowsData.push({
-      token: <Company name={item.all_token} />,
-      email: <MDBox>{item.email}</MDBox>,
-      collect: <MDButton onClick={() => tokenCollect(item.user_id)}> 회수 </MDButton>,
+      token: <Company name={user.price} />,
+      email: <MDBox>{user.name}</MDBox>,
+      date: <MDBox>{user.updated_at}</MDBox>,
     })
   );
-  console.log(rowsData);
   return {
     columns: [
       { Header: "user email", accessor: "email", width: "45%", align: "left" },
-      { Header: "token", accessor: "token", width: "10%", align: "right" },
-      { Header: "collect", accessor: "collect", width: "10%", align: "right" },
+      { Header: "token", accessor: "token", width: "10%", align: "center" },
+      { Header: "date", accessor: "date", width: "10%", align: "right" },
     ],
     rows: rowsData,
   };

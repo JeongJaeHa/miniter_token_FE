@@ -72,7 +72,7 @@ export default function App() {
   const [isLogin, setIslogin] = useState(false);
 
   useEffect(() => {
-    if (pathname === "/dashboard" || pathname === "/mypage" || pathname === "/personal") {
+    if (pathname === "/dashboard" || pathname === "/manage" || pathname === "/personal") {
       setIslogin(true);
     }
   }, [pathname]);

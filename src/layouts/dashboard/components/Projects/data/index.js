@@ -77,7 +77,7 @@ export default function data() {
 
   useEffect(() => {
     const getUserToken = async () => {
-      const result = await axios.get(`http://127.0.0.1:8080/admin/personal`, {
+      const result = await axios.get(`http://172.30.1.30:8080/admin/personal`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -86,14 +86,13 @@ export default function data() {
       const a = result.data.personal;
       setUserData(a);
     };
-    // console.log("userData: ", userData);
     getUserToken();
   }, []);
 
   const tokenCollect = async (e) => {
     const result = await axios({
       method: "patch",
-      url: `http://127.0.0.1:8080/req/collect`,
+      url: `http://172.30.1.30:8080/req/collect`,
       data: {
         userId: e,
       },
@@ -108,12 +107,6 @@ export default function data() {
     return result;
   };
 
-  // const getTokenData = userData.map((item) => <Company name={item.all_token} />);
-  // console.log("getTokenData: ", getTokenData);
-
-  // const getEmailData = userData.map((item) => <MDBox>{item.email}</MDBox>);
-  // console.log("getEmailData: ", getEmailData);
-
   const rowsData = [];
   userData.forEach((item) =>
     rowsData.push({
@@ -122,7 +115,7 @@ export default function data() {
       collect: <MDButton onClick={() => tokenCollect(item.user_id)}> 회수 </MDButton>,
     })
   );
-  console.log(rowsData);
+
   return {
     columns: [
       { Header: "user email", accessor: "email", width: "45%", align: "left" },

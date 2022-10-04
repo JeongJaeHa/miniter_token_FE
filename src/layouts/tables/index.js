@@ -33,29 +33,32 @@ import authorsTableData from "layouts/tables/data/authorsTableData";
 import projectsTableData from "layouts/tables/data/projectsTableData token";
 
 function Tables() {
-  const { columns, rows, array } = authorsTableData();
+  const { columns, rows, array, userIdArray } = authorsTableData();
   const { columns: pColumns, rows: pRows } = projectsTableData();
 
   const Approve = () => {
-    fetch(`http://127.0.0.1:8080/admin/token/approve`, {
+    console.log(array);
+    console.log(userIdArray);
+    fetch(`http://172.30.1.30:8080/admin/token/approve`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         "cache-control": "no-cache",
         accessToken: localStorage.getItem("accessToken"),
       },
+      body: JSON.stringify({ array, userIdArray }),
     });
   };
 
   const Reject = () => {
-    fetch(`http://127.0.0.1:8080/admin/token/reject`, {
+    fetch(`http://172.30.1.30:8080/admin/token/reject`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         "cache-control": "no-cache",
         accessToken: localStorage.getItem("accessToken"),
       },
-      body: JSON.stringify({ array }),
+      body: JSON.stringify({ array, userIdArray }),
     });
   };
 
@@ -81,19 +84,13 @@ function Tables() {
                   교환신청 현황
                 </MDTypography>
                 <MDBox
-                  // mx={55}
-                  // px={10}
-                  // ml={120}
                   sx={{
                     flexDirection: "row",
                     display: "flex",
-                    // paddingLeft: 100,
                     justifyContent: "flex-end",
-                    // alignItems: "center",
                   }}
                 >
                   <MDButton
-                    // sx={{ flexDirection: "row-reverse", display: "flex" }}
                     onClick={() => {
                       Approve();
                       alert("승인 하였습니다.");

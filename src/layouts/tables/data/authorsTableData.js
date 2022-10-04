@@ -50,34 +50,36 @@ export default function data1() {
   );
 
   const applyArray = [];
-  const onCheckedElement = (event, id) => {
+  const applyUserIdArray = [];
+  const onCheckedElement = (event, id, userId) => {
     const boxState = event.target.checked;
     if (boxState) {
       applyArray.push(id);
+      applyUserIdArray.push(userId);
     } else if (!boxState) {
       const index = applyArray.indexOf(id);
       if (index > -1) {
         applyArray.splice(index, 1);
+        applyUserIdArray.splice(index, 1);
       }
     }
-    return applyArray;
+    return [applyArray, applyUserIdArray];
   };
 
-  const Confirm = ({ title, id }) => (
+  const Confirm = ({ title, id, userId }) => (
     <MDBox lineHeight={1} textAlign="left">
       <MDTypography display="block" variant="caption" color="text" fontWeight="medium">
         {title}
       </MDTypography>
-      <Checkbox onChange={(event) => onCheckedElement(event, id)} />
+      <Checkbox onChange={(event) => onCheckedElement(event, id, userId)} />
     </MDBox>
   );
 
   const Navigate = useNavigate();
   const [tokenInfo, setTokenInfo] = useState({ Token_Info: [] });
-  // const [infoRows, setInfoRows] = useState([]);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8080/admin/dashboard`, {
+    fetch(`http://172.30.1.30:8080/admin/dashboard`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -87,9 +89,8 @@ export default function data1() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log("author 90", result.message);
         if (result.message === "jwt expired") {
-          fetch(`http://127.0.0.1:8080/user/refresh`, {
+          fetch(`http://172.30.1.30:8080/user/refresh`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -100,13 +101,11 @@ export default function data1() {
           })
             .then((res) => res.json())
             .then((data) => {
-              console.log(data.message);
               if (data.message === "SESSION OVER!") {
-                // 네비게이션 후 로컬 스토리지 토큰 삭제해야함.
-                // localStorage.removeItem("accessToken");
-                // localStorage.removeItem("refreshToken");
-                // localStorage.removeItem("message");
-                // Navigate("/signin");
+                Navigate("/signin");
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+                localStorage.removeItem("message");
               }
               if (data.data.accessToken) {
                 localStorage.setItem("accessToken", data.data.accessToken);
@@ -118,11 +117,15 @@ export default function data1() {
         } else if (result.message === "SESSION OVER!") {
           alert("세션이 만료되었습니다. 로그아웃 후 다시 로그인 해주세요");
           Navigate("/signin");
-          // localStorage.removeItem("accessToken");
-          // localStorage.removeItem("refreshToken");
-          // localStorage.removeItem("message");
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          localStorage.removeItem("message");
         } else if (result.accessToken) {
           localStorage.setItem("accessToken", result.accessToken);
+        } else if (result.ok === false) {
+          alert("잘못된 접근입니다.");
+          Navigate("/personal");
+          window.location.reload();
         }
         setTokenInfo(result);
       });
@@ -133,18 +136,21 @@ export default function data1() {
   const testArray = [];
   if (infoResult.Token_Info !== undefined || infoResult.Token_Info.length !== 0) {
     infoResult.Token_Info.map((value) => {
+      // console.log("139", value.userId);
+      // console.log("140", value.id);
       const temp = {
         author: <Author image={team2} email={value.email} grade={value.grade} />,
         function: <Job fontWeight="medium" description="101 EA" />,
         function1: <Job fontWeight="medium" description={value.all_token} />,
         status: <Job component="a" description={value.add_token} />,
         Date: <Job component="a" description={value.date} />,
-        reason: <Confirm component="a" email={value.email} id={value.id} />,
+        reason: <Confirm component="a" email={value.email} id={value.id} userId={value.userId} />,
       };
       testArray.push(temp);
       return testArray;
     });
   }
+  console.log(testArray);
 
   useEffect(() => {
     if (tokenInfo.Token_Info.length === undefined) {
@@ -170,6 +176,7 @@ export default function data1() {
     ],
     rows: testArray,
     array: applyArray,
+    userIdArray: applyUserIdArray,
     empty: [
       {
         author: <Author image={team2} email="" grade="" />,

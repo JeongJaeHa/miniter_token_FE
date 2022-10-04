@@ -33,7 +33,7 @@ function OrdersOverview() {
 
   useEffect(() => {
     const getUserData = async () => {
-      const result = await axios.get(`http://127.0.0.1:8080/admin/newissued`, {
+      const result = await axios.get(`http://172.30.1.30:8080/admin/newissued`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),

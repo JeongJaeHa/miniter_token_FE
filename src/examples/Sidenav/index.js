@@ -62,7 +62,6 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     alert("로그아웃 하였습니다.");
     Navigate("/signin");
     window.location.reload();
-    console.log("qweq");
   }
 
   if (transparentSidenav || (whiteSidenav && !darkMode)) {

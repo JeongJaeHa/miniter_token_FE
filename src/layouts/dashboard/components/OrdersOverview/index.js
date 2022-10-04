@@ -33,14 +33,13 @@ function OrdersOverview() {
 
   useEffect(() => {
     const getUserData = async () => {
-      const result = await axios.get(`http://127.0.0.1:8080/admin/newissued`, {
+      const result = await axios.get(`http://172.30.1.30:8080/admin/newissued`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
         },
       });
       const a = result.data.newIssued;
-      console.log(a);
       setUserData(a);
     };
     getUserData();
@@ -52,40 +51,16 @@ function OrdersOverview() {
         <MDTypography variant="h6" fontWeight="medium">
           토큰 최신 발행 이력
         </MDTypography>
-        {/* <MDBox mt={0} mb={2}> */}
-        {/* <MDTypography variant="button" color="text" fontWeight="regular">
-            <MDTypography display="inline" variant="body2" verticalAlign="middle">
-              <Icon sx={{ color: ({ palette: { success } }) => success.main }}>arrow_upward</Icon>
-            </MDTypography>
-            &nbsp;
-            <MDTypography variant="button" color="text" fontWeight="medium">
-              24%
-            </MDTypography>{" "}
-            this month
-          </MDTypography> */}
-        {/* </MDBox> */}
       </MDBox>
       <MDBox>
         {userData.map((item) => (
           <TimelineItem
-            title={item.email}
             description={item.add_token}
+            title={item.email}
             token={item.updated_at}
             lastItem
           />
         ))}
-        {/* <TimelineItem
-          color="error"
-          icon="inventory_2"
-          title="New order #1832412"
-          dateTime="21 DEC 11 PM"
-        />
-        <TimelineItem
-          color="info"
-          icon="shopping_cart"
-          title="Server payments for April"
-          dateTime="21 DEC 9:34 PM"
-        /> */}
       </MDBox>
     </Card>
   );

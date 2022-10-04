@@ -32,7 +32,7 @@ function signIn() {
   // const token = localStorage.getItem("token");
 
   function login() {
-    fetch(`http://127.0.0.1:8080/user/signin`, {
+    fetch(`http://172.30.1.30:8080/user/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,6 @@ function signIn() {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result.message);
         if (result.accessToken) {
           localStorage.setItem("accessToken", result.accessToken);
           localStorage.setItem("refreshToken", result.refreshToken);

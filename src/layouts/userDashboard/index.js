@@ -39,7 +39,7 @@ import Projects from "layouts/userDashboard/components/Projects";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-// import axios from "axios";
+import challenger from "../../assets/images/logos/future.png";
 
 function UserDashboard() {
   // const { sales, tasks } = reportsLineChartData;
@@ -55,7 +55,7 @@ function UserDashboard() {
 
   useEffect(() => {
     const getProduct = async () => {
-      const result = await axios.get(`http://127.0.0.1:8080/users/product`, {
+      const result = await axios.get(`http://172.30.1.30:8080/users/product`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -70,7 +70,7 @@ function UserDashboard() {
   const createWallet = async () => {
     const result = await axios({
       method: "post",
-      url: `http://127.0.0.1:8080/users/wallet`,
+      url: `http://172.30.1.30:8080/users/wallet`,
       headers: {
         "Content-Type": "application/json",
         accessToken: localStorage.getItem("accessToken"),
@@ -81,14 +81,14 @@ function UserDashboard() {
 
   const exToken = async () => {
     const result = await axios({
-      method: "patch",
-      url: `http://127.0.0.1:8080/req/exchange`,
+      method: "post",
+      url: `http://172.30.1.30:8080/users/exchange`,
       headers: {
         "Content-type": "application/json",
         accessToken: localStorage.getItem("accessToken"),
       },
     });
-    if (result.data.message === "SSS") {
+    if (result.data.message === "REQUEST TO TOKEN EXCHANGE BY POINT") {
       alert("포인트를 토큰으로 교환합니다..");
       window.location.reload();
     } else {
@@ -100,7 +100,7 @@ function UserDashboard() {
 
   useEffect(() => {
     const getAllToken = async () => {
-      const result = await axios.get(`http://127.0.0.1:8080/users/token`, {
+      const result = await axios.get(`http://172.30.1.30:8080/users/token`, {
         headers: {
           "Content-type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -113,7 +113,7 @@ function UserDashboard() {
   }, [inputs]);
 
   const earnPoint = async () => {
-    const result = await axios.get(`http://127.0.0.1:8080/users/earnpoint`, {
+    const result = await axios.get(`http://172.30.1.30:8080/users/earnpoint`, {
       headers: {
         "Content-type": "application/json",
         accessToken: localStorage.getItem("accessToken"),
@@ -125,7 +125,7 @@ function UserDashboard() {
 
   useEffect(() => {
     const getPoint = async () => {
-      const result = await axios.get(`http://127.0.0.1:8080/users/point`, {
+      const result = await axios.get(`http://172.30.1.30:8080/users/point`, {
         headers: {
           "Content-type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -140,7 +140,7 @@ function UserDashboard() {
   const buyProduct = async (e) => {
     const result = await axios({
       method: "post",
-      url: "http://127.0.0.1:8080/users/order",
+      url: "http://172.30.1.30:8080/users/order",
       data: {
         productId: e,
       },
@@ -196,9 +196,19 @@ function UserDashboard() {
               />
             </MDBox>
           </Grid>
-          <Grid item xs={12} md={6} lg={3}>
-            <MDBox mb={1.5}>
-              <ComplexStatisticsCard />
+          <Grid item xs={12} md={6} lg={3} align="center">
+            <MDBox
+              mb={1.5}
+              component="img"
+              src={challenger}
+              sx={{ maxWidth: 200, alignItems: "center" }}
+            >
+              {/* <ComplexStatisticsCard
+                component="img"
+                title="adsf"
+                src={challenger}
+                alt="gradeImage"
+              /> */}
             </MDBox>
           </Grid>
         </Grid>

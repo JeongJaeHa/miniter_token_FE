@@ -33,7 +33,7 @@ function TimelineItem({ color, icon, title, dateTime, description, lastItem }) {
   const isDark = useTimeline();
 
   return (
-    <MDBox position="relative" mb={3} sx={(theme) => timelineItem(theme, { lastItem, isDark })}>
+    <MDBox position="relative" mb={1} sx={(theme) => timelineItem(theme, { lastItem, isDark })}>
       <MDBox
         display="flex"
         justifyContent="center"
@@ -44,7 +44,7 @@ function TimelineItem({ color, icon, title, dateTime, description, lastItem }) {
         height=".5rem"
         borderRadius="50%"
         position="absolute"
-        top="19%"
+        top="45%"
         left="29px"
         zIndex={2}
         sx={{ fontSize: ({ typography: { size } }) => size.sm }}
@@ -53,20 +53,20 @@ function TimelineItem({ color, icon, title, dateTime, description, lastItem }) {
       </MDBox>
       <MDBox ml={5.75} pt={description ? 0.7 : 0.5} lineHeight={0} maxWidth="30rem">
         <MDTypography variant="button" fontWeight="medium" color={isDark ? "white" : "dark"}>
-          {title}
+          {title} - {description} 개
         </MDTypography>
         <MDBox mt={0.5}>
           <MDTypography variant="caption" color={isDark ? "secondary" : "text"}>
             {dateTime}
           </MDTypography>
         </MDBox>
-        <MDBox mt={2} mb={1.5}>
+        {/* <MDBox>
           {description ? (
             <MDTypography variant="button" color={isDark ? "white" : "dark"}>
               {description}
             </MDTypography>
           ) : null}
-        </MDBox>
+        </MDBox> */}
       </MDBox>
     </MDBox>
   );

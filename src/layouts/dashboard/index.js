@@ -37,6 +37,7 @@ import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   // const { sales, tasks } = reportsLineChartData;
@@ -44,15 +45,21 @@ function Dashboard() {
   const [remainToken, setRemainToken] = useState([]);
   const [issuedToken, setIssuedToken] = useState([]);
   const [member, setMember] = useState([]);
+  const Navigate = useNavigate();
 
   useEffect(() => {
     const getFullToken = async () => {
-      const result = await axios.get(`http://127.0.0.1:8080/admin/full`, {
+      const result = await axios.get(`http://172.30.1.30:8080/admin/full`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
         },
       });
+      if (result.data.message === "jwt expired") {
+        alert("세션이 만료되었습니다");
+        Navigate("/signin");
+        window.location.reload();
+      }
       const user = result.data[0].fullToken;
       setFullToken(user);
     };
@@ -61,21 +68,36 @@ function Dashboard() {
 
   useEffect(() => {
     const getRemainToken = async () => {
-      const result = await axios.get(`http://127.0.0.1:8080/admin/remain`, {
-        headers: {
-          "Content-Type": "application/json",
-          accessToken: localStorage.getItem("accessToken"),
-        },
-      });
-      const user = result.data[0].remainToken;
-      setRemainToken(user);
+      try {
+        const result = await axios.get(`http://172.30.1.30:8080/admin/remain`, {
+          headers: {
+            "Content-Type": "application/json",
+            accessToken: localStorage.getItem("accessToken"),
+          },
+        });
+        const user = result.data[0].remainToken;
+        setRemainToken(user);
+      } catch (err) {
+        if (err.message === "Request failed with status code 401") {
+          Navigate("/personal");
+          window.location.reload();
+          alert("잘못된 접근입니다");
+        } else if (err.message === "jwt expired") {
+          alert("세션이 만료되었습니다.");
+          Navigate("/signin");
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          localStorage.removeItem("message");
+          window.location.reload();
+        }
+      }
     };
     getRemainToken();
   }, []);
 
   useEffect(() => {
     const getIssuedToken = async () => {
-      const result = await axios.get(`http://127.0.0.1:8080/admin/issued`, {
+      const result = await axios.get(`http://172.30.1.30:8080/admin/issued`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -89,7 +111,7 @@ function Dashboard() {
 
   useEffect(() => {
     const getMember = async () => {
-      const result = await axios.get(`http://127.0.0.1:8080/admin/members`, {
+      const result = await axios.get(`http://172.30.1.30:8080/admin/members`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -115,8 +137,8 @@ function Dashboard() {
                 count={fullToken}
                 percentage={{
                   color: "success",
-                  amount: "+55%",
-                  label: "than lask week",
+                  // amount: "+55%",
+                  label: "SangWoo & JaeHa",
                 }}
               />
             </MDBox>
@@ -129,8 +151,8 @@ function Dashboard() {
                 count={remainToken}
                 percentage={{
                   color: "success",
-                  amount: "+3%",
-                  label: "than last month",
+                  // amount: "+3%",
+                  label: "3rd SIDE PROJECT",
                 }}
               />
             </MDBox>
@@ -144,8 +166,8 @@ function Dashboard() {
                 count={issuedToken}
                 percentage={{
                   color: "success",
-                  amount: "+1%",
-                  label: "than yesterday",
+                  // amount: "+1%",
+                  label: "Make DashBoard",
                 }}
               />
             </MDBox>

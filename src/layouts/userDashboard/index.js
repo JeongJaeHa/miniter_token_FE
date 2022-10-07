@@ -42,20 +42,14 @@ import axios from "axios";
 import challenger from "../../assets/images/logos/future.png";
 
 function UserDashboard() {
-  // const { sales, tasks } = reportsLineChartData;
-  // const [userData, setUserData] = useState([]);
-  // const [wallet, setWallet] = useState([]);
   const [inputs, setInputs] = useState(0);
   const [point, setPoint] = useState(0);
-  // const [exchange, setExchange] = useState([]);
   const [getVPoint, setGetVPoint] = useState(0);
-
   const [product, setProduct] = useState([]);
-  // const [buy, setBuy] = useState([]);
 
   useEffect(() => {
     const getProduct = async () => {
-      const result = await axios.get(`http://172.30.1.30:8080/users/product`, {
+      const result = await axios.get(`http://3.35.55.229:8080/users/product`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -70,7 +64,7 @@ function UserDashboard() {
   const createWallet = async () => {
     const result = await axios({
       method: "post",
-      url: `http://172.30.1.30:8080/users/wallet`,
+      url: `http://3.35.55.229:8080/users/wallet`,
       headers: {
         "Content-Type": "application/json",
         accessToken: localStorage.getItem("accessToken"),
@@ -80,27 +74,33 @@ function UserDashboard() {
   };
 
   const exToken = async () => {
-    const result = await axios({
-      method: "post",
-      url: `http://172.30.1.30:8080/users/exchange`,
-      headers: {
-        "Content-type": "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-    });
-    if (result.data.message === "REQUEST TO TOKEN EXCHANGE BY POINT") {
-      alert("포인트를 토큰으로 교환합니다..");
-      window.location.reload();
-    } else {
-      alert("포인트 거지");
-      window.location.reload();
+    try {
+      const result = await axios({
+        method: "post",
+        url: `http://3.35.55.229:8080/users/exchange`,
+        headers: {
+          "Content-type": "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      });
+      if (result.data.message === "REQUEST TO TOKEN EXCHANGE BY POINT") {
+        alert("토큰 교환 신청 완료!");
+        window.location.reload();
+      }
+    } catch (err) {
+      if (err.response.data.message === "LACK OF POINT") {
+        alert("포인트가 부족합니다. 교환 비율은 `1000:1` 입니다.");
+        window.location.reload();
+      } else if (err.response.data.message === "ONE TO ONE") {
+        alert("이미 신청한 내역이 있습니다.");
+        window.location.reload();
+      }
     }
-    return result;
   };
 
   useEffect(() => {
     const getAllToken = async () => {
-      const result = await axios.get(`http://172.30.1.30:8080/users/token`, {
+      const result = await axios.get(`http://3.35.55.229:8080/users/token`, {
         headers: {
           "Content-type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -113,7 +113,7 @@ function UserDashboard() {
   }, [inputs]);
 
   const earnPoint = async () => {
-    const result = await axios.get(`http://172.30.1.30:8080/users/earnpoint`, {
+    const result = await axios.get(`http://3.35.55.229:8080/users/earnpoint`, {
       headers: {
         "Content-type": "application/json",
         accessToken: localStorage.getItem("accessToken"),
@@ -125,7 +125,7 @@ function UserDashboard() {
 
   useEffect(() => {
     const getPoint = async () => {
-      const result = await axios.get(`http://172.30.1.30:8080/users/point`, {
+      const result = await axios.get(`http://3.35.55.229:8080/users/point`, {
         headers: {
           "Content-type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -138,25 +138,28 @@ function UserDashboard() {
   }, [point]);
 
   const buyProduct = async (e) => {
-    const result = await axios({
-      method: "post",
-      url: "http://172.30.1.30:8080/users/order",
-      data: {
-        productId: e,
-      },
-      headers: {
-        "Content-Type": "application/json",
-        accessToken: localStorage.getItem("accessToken"),
-      },
-    });
-    if (result.data.message === "PURCHASE COMPLETE") {
-      alert("토큰을 사용 했습니다.");
-      window.location.reload();
-    } else {
-      alert("거지");
-      window.location.reload();
+    try {
+      const result = await axios({
+        method: "post",
+        url: "http://3.35.55.229:8080/users/order",
+        data: {
+          productId: e,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          accessToken: localStorage.getItem("accessToken"),
+        },
+      });
+      if (result.data.message === "PURCHASE COMPLETE") {
+        alert("토큰을 사용 했습니다.");
+        window.location.reload();
+      }
+    } catch (err) {
+      if (err.response.data.message === "TOKEN ") {
+        alert("토큰이 부족합니다. 열심히 포인트를 획득하세요.");
+        window.location.reload();
+      }
     }
-    return result;
   };
 
   return (
@@ -180,7 +183,7 @@ function UserDashboard() {
               <ComplexStatisticsCard
                 count="토큰 교환"
                 percentage={{
-                  label: <MDButton onClick={() => exToken()}>토큰 교환하기</MDButton>,
+                  label: <MDButton onClick={() => exToken()}>토큰 교환 신청</MDButton>,
                 }}
               />
             </MDBox>
@@ -203,12 +206,6 @@ function UserDashboard() {
               src={challenger}
               sx={{ maxWidth: 200, alignItems: "center" }}
             >
-              {/* <ComplexStatisticsCard
-                component="img"
-                title="adsf"
-                src={challenger}
-                alt="gradeImage"
-              /> */}
             </MDBox>
           </Grid>
         </Grid>
@@ -238,9 +235,6 @@ function UserDashboard() {
             <Grid item xs={12} md={6} lg={8}>
               <Projects />
             </Grid>
-            {/* <Grid item xs={12} md={6} lg={4}>
-              <OrdersOverview />
-            </Grid> */}
           </Grid>
         </MDBox>
       </MDBox>

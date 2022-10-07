@@ -40,7 +40,7 @@ export default function data() {
   useEffect(() => {
     const getUserHistory = async () => {
       try {
-        const result = await axios.get(`http://172.30.1.30:8080/users/history`, {
+        const result = await axios.get(`http://3.35.55.229:8080/users/history`, {
           headers: {
             "Content-Type": "application/json",
             accessToken: localStorage.getItem("accessToken"),

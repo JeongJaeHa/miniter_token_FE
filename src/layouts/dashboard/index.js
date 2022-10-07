@@ -49,7 +49,7 @@ function Dashboard() {
 
   useEffect(() => {
     const getFullToken = async () => {
-      const result = await axios.get(`http://172.30.1.30:8080/admin/full`, {
+      const result = await axios.get(`http://3.35.55.229:8080/admin/full`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -69,7 +69,7 @@ function Dashboard() {
   useEffect(() => {
     const getRemainToken = async () => {
       try {
-        const result = await axios.get(`http://172.30.1.30:8080/admin/remain`, {
+        const result = await axios.get(`http://3.35.55.229:8080/admin/remain`, {
           headers: {
             "Content-Type": "application/json",
             accessToken: localStorage.getItem("accessToken"),
@@ -97,7 +97,7 @@ function Dashboard() {
 
   useEffect(() => {
     const getIssuedToken = async () => {
-      const result = await axios.get(`http://172.30.1.30:8080/admin/issued`, {
+      const result = await axios.get(`http://3.35.55.229:8080/admin/issued`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -111,7 +111,7 @@ function Dashboard() {
 
   useEffect(() => {
     const getMember = async () => {
-      const result = await axios.get(`http://172.30.1.30:8080/admin/members`, {
+      const result = await axios.get(`http://3.35.55.229:8080/admin/members`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),

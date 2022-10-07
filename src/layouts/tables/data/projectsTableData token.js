@@ -45,7 +45,7 @@ export default function data2() {
   };
 
   useEffect(() => {
-    fetch(`http://172.30.1.30:8080/admin/exchange`, {
+    fetch(`http://3.35.55.229:8080/admin/exchange`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -56,7 +56,7 @@ export default function data2() {
       .then((res) => res.json())
       .then((result) => {
         if (result.message === "jwt expired") {
-          fetch(`http://172.30.1.30:8080/user/refresh`, {
+          fetch(`http://3.35.55.229:8080/user/refresh`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

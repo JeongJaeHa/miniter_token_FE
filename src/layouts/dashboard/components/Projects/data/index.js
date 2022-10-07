@@ -77,7 +77,7 @@ export default function data() {
 
   useEffect(() => {
     const getUserToken = async () => {
-      const result = await axios.get(`http://172.30.1.30:8080/admin/personal`, {
+      const result = await axios.get(`http://3.35.55.229:8080/admin/personal`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -92,7 +92,7 @@ export default function data() {
   const tokenCollect = async (e) => {
     const result = await axios({
       method: "patch",
-      url: `http://172.30.1.30:8080/req/collect`,
+      url: `http://3.35.55.229:8080/req/collect`,
       data: {
         userId: e,
       },

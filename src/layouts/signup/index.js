@@ -31,7 +31,7 @@ function signUp() {
   // const token = localStorage.getItem("token");
 
   const register = () => {
-    fetch(`http://3.35.55.229:8080/user/signup`, {
+    fetch(`http://10.58.52.59:8080/users/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

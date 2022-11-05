@@ -32,7 +32,7 @@ function signIn() {
   // const token = localStorage.getItem("token");
 
   function login() {
-    fetch(`http://3.35.55.229:8080/user/signin`, {
+    fetch(`http://10.58.52.59:8080/users/signin`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

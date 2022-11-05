@@ -40,7 +40,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
-  // const { sales, tasks } = reportsLineChartData;
   const [fullToken, setFullToken] = useState([]);
   const [remainToken, setRemainToken] = useState([]);
   const [issuedToken, setIssuedToken] = useState([]);
@@ -49,7 +48,7 @@ function Dashboard() {
 
   useEffect(() => {
     const getFullToken = async () => {
-      const result = await axios.get(`http://3.35.55.229:8080/admin/full`, {
+      const result = await axios.get(`http://10.58.52.59:8080/admin/full`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -69,7 +68,7 @@ function Dashboard() {
   useEffect(() => {
     const getRemainToken = async () => {
       try {
-        const result = await axios.get(`http://3.35.55.229:8080/admin/remain`, {
+        const result = await axios.get(`http://10.58.52.59:8080/admin/remain`, {
           headers: {
             "Content-Type": "application/json",
             accessToken: localStorage.getItem("accessToken"),
@@ -97,7 +96,7 @@ function Dashboard() {
 
   useEffect(() => {
     const getIssuedToken = async () => {
-      const result = await axios.get(`http://3.35.55.229:8080/admin/issued`, {
+      const result = await axios.get(`http://10.58.52.59:8080/admin/issued`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -111,7 +110,7 @@ function Dashboard() {
 
   useEffect(() => {
     const getMember = async () => {
-      const result = await axios.get(`http://3.35.55.229:8080/admin/members`, {
+      const result = await axios.get(`http://10.58.52.59:8080/admin/members`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -137,7 +136,6 @@ function Dashboard() {
                 count={fullToken}
                 percentage={{
                   color: "success",
-                  // amount: "+55%",
                   label: "SangWoo & JaeHa",
                 }}
               />
@@ -151,7 +149,6 @@ function Dashboard() {
                 count={remainToken}
                 percentage={{
                   color: "success",
-                  // amount: "+3%",
                   label: "3rd SIDE PROJECT",
                 }}
               />
@@ -166,7 +163,6 @@ function Dashboard() {
                 count={issuedToken}
                 percentage={{
                   color: "success",
-                  // amount: "+1%",
                   label: "Make DashBoard",
                 }}
               />
@@ -181,7 +177,6 @@ function Dashboard() {
                 count={member}
                 percentage={{
                   color: "success",
-                  amount: "",
                   label: "Just updated",
                 }}
               />

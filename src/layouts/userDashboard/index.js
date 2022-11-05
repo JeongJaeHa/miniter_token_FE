@@ -49,14 +49,14 @@ function UserDashboard() {
 
   useEffect(() => {
     const getProduct = async () => {
-      const result = await axios.get(`http://3.35.55.229:8080/users/product`, {
+      const result = await axios.get(`http://10.58.52.59:8080/users/product`, {
         headers: {
           "Content-Type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
         },
       });
-      const rr = result.data;
-      setProduct(rr);
+      const productList = result.data;
+      setProduct(productList);
     };
     getProduct();
   }, []);
@@ -64,7 +64,7 @@ function UserDashboard() {
   const createWallet = async () => {
     const result = await axios({
       method: "post",
-      url: `http://3.35.55.229:8080/users/wallet`,
+      url: `http://10.58.52.59:8080/users/wallet`,
       headers: {
         "Content-Type": "application/json",
         accessToken: localStorage.getItem("accessToken"),
@@ -77,7 +77,7 @@ function UserDashboard() {
     try {
       const result = await axios({
         method: "post",
-        url: `http://3.35.55.229:8080/users/exchange`,
+        url: `http://10.58.52.59:8080/users/exchange`,
         headers: {
           "Content-type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -100,7 +100,7 @@ function UserDashboard() {
 
   useEffect(() => {
     const getAllToken = async () => {
-      const result = await axios.get(`http://3.35.55.229:8080/users/token`, {
+      const result = await axios.get(`http://10.58.52.59:8080/users/token`, {
         headers: {
           "Content-type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
@@ -113,26 +113,26 @@ function UserDashboard() {
   }, [inputs]);
 
   const earnPoint = async () => {
-    const result = await axios.get(`http://3.35.55.229:8080/users/earnpoint`, {
+    const result = await axios.get(`http://10.58.52.59:8080/users/earnpoint`, {
       headers: {
         "Content-type": "application/json",
         accessToken: localStorage.getItem("accessToken"),
       },
     });
-    const a = result.data[0].point;
-    setPoint(a);
+    const pointData = result.data[0].point;
+    setPoint(pointData);
   };
 
   useEffect(() => {
     const getPoint = async () => {
-      const result = await axios.get(`http://3.35.55.229:8080/users/point`, {
+      const result = await axios.get(`http://10.58.52.59:8080/users/point`, {
         headers: {
           "Content-type": "application/json",
           accessToken: localStorage.getItem("accessToken"),
         },
       });
-      const a = result.data[0].point;
-      setGetVPoint(a);
+      const pointData = result.data[0].point;
+      setGetVPoint(pointData);
     };
     getPoint();
   }, [point]);
@@ -141,7 +141,7 @@ function UserDashboard() {
     try {
       const result = await axios({
         method: "post",
-        url: "http://3.35.55.229:8080/users/order",
+        url: "http://10.58.52.59:8080/users/order",
         data: {
           productId: e,
         },
@@ -155,7 +155,7 @@ function UserDashboard() {
         window.location.reload();
       }
     } catch (err) {
-      if (err.response.data.message === "TOKEN ") {
+      if (err.response.data.message === "TOKEN") {
         alert("토큰이 부족합니다. 열심히 포인트를 획득하세요.");
         window.location.reload();
       }
@@ -206,6 +206,12 @@ function UserDashboard() {
               src={challenger}
               sx={{ maxWidth: 200, alignItems: "center" }}
             >
+              {/* <ComplexStatisticsCard
+                component="img"
+                title="adsf"
+                src={challenger}
+                alt="gradeImage"
+              /> */}
             </MDBox>
           </Grid>
         </Grid>
@@ -235,6 +241,9 @@ function UserDashboard() {
             <Grid item xs={12} md={6} lg={8}>
               <Projects />
             </Grid>
+            {/* <Grid item xs={12} md={6} lg={4}>
+              <OrdersOverview />
+            </Grid> */}
           </Grid>
         </MDBox>
       </MDBox>

@@ -39,7 +39,7 @@ function Tables() {
   const Approve = () => {
     console.log(array);
     console.log(userIdArray);
-    fetch(`http://3.35.55.229:8080/admin/token/approve`, {
+    fetch(`http://10.58.52.59:8080/admin/token/approve`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +51,7 @@ function Tables() {
   };
 
   const Reject = () => {
-    fetch(`http://3.35.55.229:8080/admin/token/reject`, {
+    fetch(`http://10.58.52.59:8080/admin/token/reject`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
